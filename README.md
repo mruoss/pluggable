@@ -50,49 +50,55 @@ The easiest way to define a token is to create a module which derives
 
 Example:
 
-      defmodule MyPipeline.Token do
-        @derive Pluggable.Token
-        defstruct [
-          halted: false,
-          assigns: %{},
-          # other state
-        ]
-      end
+```elixir
+defmodule MyPipeline.Token do
+  @derive Pluggable.Token
+  defstruct [
+    halted: false,
+    assigns: %{},
+    # other state
+  ]
+end
+```
 
 If the fields holding these two states are named differently, pass the fields
 as options to `@derive`:
 
-      defmodule MyPipeline.Token do
-        @derive {Pluggable.Token, halted_key: :stopped, assigns_key: :shared_state}
-        defstruct [
-          stopped: false,
-          shared_state: %{},
-          # other state
-        ]
-      end
+```elixir
+defmodule MyPipeline.Token do
+  @derive {Pluggable.Token, halted_key: :stopped, assigns_key: :shared_state}
+  defstruct [
+    stopped: false,
+    shared_state: %{},
+    # other state
+  ]
+end
+```
 
 ### Implementing Pluggable.Token
 
 `Pluggable.Token` can be implemented. The following is the default implementation
 when deriving `Pluggable.Token`
 
-      defmodule MyPipeline.Token do
-        defstruct [
-          halted: nil,
-          assigns: %{},
-          # other state
-        ]
-      end
+```elixir
+  defmodule MyPipeline.Token do
+    defstruct [
+      halted: nil,
+      assigns: %{},
+      # other state
+    ]
+  end
 
-      defimpl Pluggable.Token, for: MyPipeline.Token do
-        def halted?(token), do: token.halted
+  defimpl Pluggable.Token, for: MyPipeline.Token do
+    def halted?(token), do: token.halted
 
-        def halt(token), do: %{token | halted: true}
+    def halt(token), do: %{token | halted: true}
 
-        def assign(%MyPipeline.Token{assigns: assigns} = token, key, value) when is_atom(key) do
-          %{token | assigns: Map.put(assigns, key, value)}
-        end
-      end
+    def assign(%MyPipeline.Token{assigns: assigns} = token, key, value) when is_atom(key) do
+      %{token | assigns: Map.put(assigns, key, value)}
+    end
+  end
+```
 
 ## Building Pipelines
 
