@@ -24,3 +24,6 @@ pluggable-*.tar
 
 # Temporary files, for example, from tests.
 /tmp/
+
+# Dialyzer Files
+/priv/plts
