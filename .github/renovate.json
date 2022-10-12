@@ -1,0 +1,11 @@
+{
+  "extends": ["config:base"],
+  "dependencyDashboard": true,
+  "ignoreDeps": [],
+  "rebaseWhen": "behind-base-branch",
+  "branchConcurrentLimit": 10,
+  "lockFileMaintenance": {
+    "enabled": true,
+    "automerge": true
+  }
+}

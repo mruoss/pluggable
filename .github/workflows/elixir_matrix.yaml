@@ -1,0 +1,54 @@
+name: Elixir Compatibility Matrix
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    name: Test - OTP ${{matrix.otp}} / Elixir ${{matrix.elixir}}
+    strategy:
+      matrix:
+        # See https://hexdocs.pm/elixir/1.13/compatibility-and-deprecations.html#compatibility-between-elixir-and-erlang-otp
+        otp: ["22.x", "23.x", "24.x", "25.x"]
+        elixir: ["1.12.x", "1.13.x", "1.14.x"]
+        exclude:
+          # OTP 22
+          - elixir: "1.14.x"
+            otp: "22.x"
+          # OTP 25
+          - elixir: "1.12.x"
+            otp: "25.x"
+          - elixir: "1.13.x"
+            otp: "25.x"
+        include:
+          - elixir: "1.13.4"
+            otp: "25.x"
+    steps:
+      - uses: actions/checkout@v1.0.0
+      - uses: erlef/setup-beam@v1
+        with:
+          otp-version: ${{matrix.otp}}
+          elixir-version: ${{matrix.elixir}}
+
+      - name: Retrieve Build Cache
+        uses: actions/cache@v3
+        id: build-folder-cache
+        with:
+          path: _build
+          key: ${{ runner.os }}-${{ matrix.otp }}-${{ matrix.elixir }}-build-${{ hashFiles(format('{0}{1}', github.workspace, '/mix.lock')) }}
+
+      - name: Retrieve Mix Dependencies Cache
+        uses: actions/cache@v3
+        id: mix-cache
+        with:
+          path: deps
+          key: ${{ runner.os }}-${{ matrix.otp }}-${{ matrix.elixir }}-mix-${{ hashFiles(format('{0}{1}', github.workspace, '/mix.lock')) }}
+
+      - run: mix local.rebar --force
+      - run: mix local.hex --force
+      - run: mix deps.get
+      - run: mix compile --warnings-as-errors
+      - run: mix test

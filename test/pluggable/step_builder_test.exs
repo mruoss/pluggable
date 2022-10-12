@@ -83,6 +83,8 @@ defmodule Pluggable.StepBuilderTest do
 
   use ExUnit.Case, async: true
 
+  import ExUnit.CaptureLog
+
   test "exports the init/1 function" do
     assert Sample.init(:ok) == :ok
   end
@@ -171,5 +173,41 @@ defmodule Pluggable.StepBuilderTest do
 
     assert CompileInit.call(%TestToken{}, :plug_init).assigns.opts == {:init, :compile}
     assert RuntimeInit.call(%TestToken{}, :plug_init).assigns.opts == {:init, :runtime}
+  end
+
+  test "raises for other init modes" do
+    assert_raise ArgumentError, fn ->
+      Code.eval_string("""
+        defmodule OtherInit do
+          use Pluggable.StepBuilder, init_mode: :other
+        end
+      """)
+    end
+  end
+
+  defmodule LogOnModuleHalt do
+    use Pluggable.StepBuilder, log_on_halt: :error
+
+    step(Halter)
+  end
+
+  defmodule LogOnFunctionHalt do
+    use Pluggable.StepBuilder, log_on_halt: :error
+
+    step(:halter)
+
+    def halter(token, _opts), do: halt(token)
+  end
+
+  test "log on halt" do
+    assert capture_log([level: :error], fn ->
+             assert LogOnModuleHalt.call(%TestToken{}, []).halted
+           end) =~
+             "[error] Pluggable.StepBuilderTest.LogOnModuleHalt halted in Pluggable.StepBuilderTest.Halter.call/2"
+
+    assert capture_log([level: :error], fn ->
+             assert LogOnFunctionHalt.call(%TestToken{}, []).halted
+           end) =~
+             "[error] Pluggable.StepBuilderTest.LogOnFunctionHalt halted in :halter/2"
   end
 end

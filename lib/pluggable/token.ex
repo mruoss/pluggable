@@ -88,14 +88,16 @@ defimpl Pluggable.Token, for: Any do
 
     if !Map.has_key?(struct, halted_key),
       do:
-        raise(
-          "Key #{inspect(halted_key)} does not exist in struct #{inspect(struct)}. Please define a key describing the :halted state."
+        raise(ArgumentError,
+          message:
+            "Key #{inspect(halted_key)} does not exist in struct #{inspect(struct)}. Please define a key describing the :halted state."
         )
 
     if !Map.has_key?(struct, assigns_key),
       do:
-        raise(
-          "Key #{inspect(assigns_key)} does not exist in struct #{inspect(struct)}. Please define a key holding assigns."
+        raise(ArgumentError,
+          message:
+            "Key #{inspect(assigns_key)} does not exist in struct #{inspect(struct)}. Please define a key holding assigns."
         )
 
     quote do
@@ -112,7 +114,9 @@ defimpl Pluggable.Token, for: Any do
     end
   end
 
+  # coveralls-ignore-start No logic to test
   def halted?(_token), do: false
   def halt(token), do: token
   def assign(token, _key, _value), do: token
+  # coveralls-ignore-stop
 end
