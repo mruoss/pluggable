@@ -7,7 +7,7 @@ defprotocol Pluggable.Token do
 
   ## Deriving Pluggable.Token
 
-  The simplest way to use this library is to define a token module the derives
+  The simplest way to use this library is to define a token module which derives
   `Pluggable.Token` and defines a struct which, among others defines the keys:
 
    * `:halted` - the boolean status on whether the pipeline was halted
