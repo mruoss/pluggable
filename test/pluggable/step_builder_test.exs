@@ -29,11 +29,9 @@ defmodule Pluggable.StepBuilderTest do
     use Pluggable.StepBuilder
 
     def call(token, opts) do
-      try do
-        super(token, opts)
-      catch
-        :throw, {:not_found, token} -> assign(token, :not_found, :caught)
-      end
+      super(token, opts)
+    rescue
+      :throw, {:not_found, token} -> assign(token, :not_found, :caught)
     end
 
     step(:boom)
