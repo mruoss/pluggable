@@ -30,7 +30,7 @@ defmodule Pluggable.StepBuilderTest do
 
     def call(token, opts) do
       super(token, opts)
-    rescue
+    catch
       :throw, {:not_found, token} -> assign(token, :not_found, :caught)
     end
 

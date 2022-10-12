@@ -1,6 +1,5 @@
 defmodule Pluggable.TokenTest do
   use ExUnit.Case, async: true
-  alias Pluggable.Token, as: MUT
 
   test "raises if required keys don't exists" do
     assert_raise ArgumentError, fn ->
