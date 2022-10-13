@@ -30,7 +30,7 @@ in `mix.exs`:
 ```elixir
 def deps do
   [
-    {:pluggable, "~> 0.1.0"}
+    {:pluggable, "~> 1.0"}
   ]
 end
 ```
