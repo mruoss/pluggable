@@ -13,9 +13,9 @@ defmodule Pluggable.StepBuilder do
         import AnotherModule, only: [interesting_step: 2]
         step :interesting_step
 
-        def hello(conn, opts) do
+        def hello(token, opts) do
           body = if opts[:upper], do: "WORLD", else: "world"
-          send_resp(conn, 200, body)
+          send_resp(token, 200, body)
         end
       end
 
@@ -23,7 +23,7 @@ defmodule Pluggable.StepBuilder do
   The steps in the pipeline will be executed in the order they've been added
   through the `step/2` macro. In the example above, `SomeLibrary.Logger` will
   be called first and then the `:hello` function step will be called on the
-  resulting connection.
+  resulting token.
 
   ## Options
 
@@ -36,7 +36,7 @@ defmodule Pluggable.StepBuilder do
 
     * `:copy_opts_to_assign` - an `atom` representing an assign. When supplied,
       it will copy the options given to the Step initialization to the given
-      connection assign
+      token assign
 
   ## step behaviour
 
@@ -73,8 +73,8 @@ defmodule Pluggable.StepBuilder do
         step SomeLibrary.Logger
         step SomeLibrary.AddMeta
 
-        def call(conn, opts) do
-          conn
+        def call(token, opts) do
+          token
           |> super(opts) # calls SomeLibrary.Logger and SomeLibrary.AddMeta
           |> assign(:called_all_steps, true)
         end
@@ -84,7 +84,7 @@ defmodule Pluggable.StepBuilder do
 
   A pluggable step pipeline can be halted with `Pluggable.Token.halt/1`. The builder
   will prevent further steps downstream from being invoked and return the
-  current connection. In the following example, the `SomeLibrary.Logger` step never
+  current token. In the following example, the `SomeLibrary.Logger` step never
   gets called:
 
       defmodule StepUsingHalt do
@@ -93,8 +93,8 @@ defmodule Pluggable.StepBuilder do
         step :stopper
         step SomeLibrary.Logger
 
-        def stopper(conn, _opts) do
-          halt(conn)
+        def stopper(token, _opts) do
+          halt(token)
         end
       end
   """
@@ -212,7 +212,7 @@ defmodule Pluggable.StepBuilder do
   has to be called coming first in the pipeline).
 
   The function returns a tuple with the first element being a quoted reference
-  to the connection and the second element being the compiled quoted pipeline.
+  to the token and the second element being the compiled quoted pipeline.
 
   ## Examples
 
