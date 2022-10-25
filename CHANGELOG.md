@@ -13,6 +13,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 <!-- No new entries below this line! -->
 
+## [1.0.1] - 2022-10-25
+
+### Added
+
+- :locals_without_parens export in formatter configuration
+
 ## [1.0.0] - 2022-10-12
 
 This is the first release.

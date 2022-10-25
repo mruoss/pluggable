@@ -15,9 +15,9 @@ defmodule Pluggable.StepBuilderTest do
   defmodule Sample do
     use Pluggable.StepBuilder, copy_opts_to_assign: :stack
 
-    step(:fun, :step1)
-    step(Module, :step2)
-    step(Module, :step3)
+    step :fun, :step1
+    step Module, :step2
+    step Module, :step3
 
     def fun(token, opts) do
       stack = [{:fun, opts} | token.assigns[:stack]]
@@ -34,7 +34,7 @@ defmodule Pluggable.StepBuilderTest do
       :throw, {:not_found, token} -> assign(token, :not_found, :caught)
     end
 
-    step(:boom)
+    step :boom
 
     def boom(token, _opts) do
       token = assign(token, :entered_stack, true)
@@ -45,10 +45,10 @@ defmodule Pluggable.StepBuilderTest do
   defmodule Halter do
     use Pluggable.StepBuilder
 
-    step(:set_step, :first)
-    step(:set_step, :second)
-    step(:authorize)
-    step(:set_step, :end_of_chain_reached)
+    step :set_step, :first
+    step :set_step, :second
+    step :authorize
+    step :set_step, :end_of_chain_reached
 
     def set_step(token, step), do: assign(token, step, true)
 
@@ -68,12 +68,12 @@ defmodule Pluggable.StepBuilderTest do
     end
 
     use Pluggable.StepBuilder
-    step(FaultyStep)
+    step FaultyStep
   end
 
   defmodule FaultyFunctionStep do
     use Pluggable.StepBuilder
-    step(:faulty_function)
+    step :faulty_function
 
     # Doesn't return a Pluggable.Token
     def faulty_function(_token, _opts), do: "foo"
@@ -137,7 +137,7 @@ defmodule Pluggable.StepBuilderTest do
         end
 
         use Pluggable.StepBuilder
-        step(Bad)
+        step Bad
       end
     end
   end
@@ -157,14 +157,14 @@ defmodule Pluggable.StepBuilderTest do
       use Pluggable.StepBuilder
 
       var = :plug_init
-      step(Assigner, var)
+      step Assigner, var
     end
 
     defmodule RuntimeInit do
       use Pluggable.StepBuilder, init_mode: :runtime
 
       var = :plug_init
-      step(Assigner, var)
+      step Assigner, var
     end
 
     :ok = Agent.update(:plug_init, fn :compile -> :runtime end)
@@ -186,13 +186,13 @@ defmodule Pluggable.StepBuilderTest do
   defmodule LogOnModuleHalt do
     use Pluggable.StepBuilder, log_on_halt: :error
 
-    step(Halter)
+    step Halter
   end
 
   defmodule LogOnFunctionHalt do
     use Pluggable.StepBuilder, log_on_halt: :error
 
-    step(:halter)
+    step :halter
 
     def halter(token, _opts), do: halt(token)
   end
