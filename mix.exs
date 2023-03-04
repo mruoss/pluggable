@@ -41,7 +41,7 @@ defmodule Pluggable.MixProject do
       {:credo, "~> 1.6", only: [:dev, :test], runtime: false},
 
       # Test deps
-      {:excoveralls, "~> 0.15", only: :test}
+      {:excoveralls, "~> 0.16", only: :test}
     ]
   end
 
