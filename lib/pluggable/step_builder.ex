@@ -107,10 +107,12 @@ defmodule Pluggable.StepBuilder do
       @behaviour Pluggable
       @pluggable_builder_opts unquote(opts)
 
+      @impl Pluggable
       def init(opts) do
         opts
       end
 
+      @impl Pluggable
       def call(token, opts) do
         pluggable_builder_call(token, opts)
       end
