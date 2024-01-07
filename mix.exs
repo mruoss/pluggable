@@ -78,7 +78,8 @@ defmodule Pluggable.MixProject do
       licenses: ["Apache-2.0"],
       links: %{
         "GitHub" => @source_url,
-        "Changelog" => "https://hexdocs.pm/pluggable/changelog.html"
+        "Changelog" => "https://hexdocs.pm/pluggable/changelog.html",
+        "Sponsor" => "https://github.com/sponsors/mruoss"
       },
       extras: [
         "README.md",
