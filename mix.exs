@@ -1,12 +1,13 @@
 defmodule Pluggable.MixProject do
   use Mix.Project
 
+  @app :pluggable
   @source_url "https://github.com/mruoss/pluggable"
   @version "1.1.0"
 
   def project do
     [
-      app: :pluggable,
+      app: @app,
       description: "A Plug-like pipeline creator",
       version: @version,
       elixir: "~> 1.12",
@@ -73,12 +74,12 @@ defmodule Pluggable.MixProject do
 
   defp package do
     [
-      name: :pluggable,
+      name: @app,
       maintainers: ["Michael Ruoss"],
       licenses: ["Apache-2.0"],
       links: %{
         "GitHub" => @source_url,
-        "Changelog" => "https://hexdocs.pm/pluggable/changelog.html",
+        "Changelog" => "https://hexdocs.pm/#{@app}/changelog.html",
         "Sponsor" => "https://github.com/sponsors/mruoss"
       },
       extras: [
