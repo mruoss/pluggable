@@ -1,0 +1,14 @@
+{
+  extends: [
+    'config:base',
+    'config:recommended',
+    ':automergeMinor',
+    ':automergePr',
+    ':label(renovate-update)',
+    ':rebaseStalePrs',
+    ':prConcurrentLimit10',
+  ],
+  cdnurl: {
+    fileMatch: ['^assets/.*\\.tsx?$'],
+  },
+}
