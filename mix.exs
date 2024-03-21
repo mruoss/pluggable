@@ -2,7 +2,7 @@ defmodule Pluggable.MixProject do
   use Mix.Project
 
   @app :pluggable
-  @source_url "https://github.com/mruoss/pluggable"
+  @source_url "https://github.com/mruoss/#{@app}"
   @version "1.1.0"
 
   def project do
@@ -82,10 +82,6 @@ defmodule Pluggable.MixProject do
         "Changelog" => "https://hexdocs.pm/#{@app}/changelog.html",
         "Sponsor" => "https://github.com/sponsors/mruoss"
       },
-      extras: [
-        "README.md",
-        "CHANGELOG.md"
-      ],
       files: ["lib", "mix.exs", "README.md", "LICENSE", "CHANGELOG.md", ".formatter.exs"]
     ]
   end
