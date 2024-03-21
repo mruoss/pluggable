@@ -1,4 +1,8 @@
 defmodule Pluggable.StepBuilderTest do
+  use ExUnit.Case, async: true
+
+  import ExUnit.CaptureLog
+
   defmodule Module do
     import Pluggable.Token
 
@@ -7,7 +11,7 @@ defmodule Pluggable.StepBuilderTest do
     end
 
     def call(token, opts) do
-      stack = [{:call, opts} | token.assigns[:stack]]
+      stack = [{:call, opts} | List.wrap(token.assigns[:stack])]
       assign(token, :stack, stack)
     end
   end
@@ -78,10 +82,6 @@ defmodule Pluggable.StepBuilderTest do
     # Doesn't return a Pluggable.Token
     def faulty_function(_token, _opts), do: "foo"
   end
-
-  use ExUnit.Case, async: true
-
-  import ExUnit.CaptureLog
 
   test "exports the init/1 function" do
     assert Sample.init(:ok) == :ok
