@@ -13,6 +13,12 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 <!-- No new entries below this line! -->
 
+## [1.1.0] - 2024-03-21
+
+## Added
+
+- Add `Pluggable.PipelineBuilder` to create multiple pipelines in the same module ([#58](https://github.com/mruoss/pluggable/pull/58))
+
 ## [1.0.1] - 2022-10-25
 
 ### Added

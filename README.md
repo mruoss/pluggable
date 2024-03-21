@@ -105,6 +105,9 @@ when deriving `Pluggable.Token`
 `Pluggable.StepBuilder` works just like `Plug.Builder`. See the
 module documentation for instructions.
 
+`Pluggable.PipelineBuilder` can be used to define and run multiple pipelines in 
+the same module. See the module documentation for instructions.
+
 ## Code Formatting
 
 When using the `Pluggable.StepBuilder`, you might want to format the usage
