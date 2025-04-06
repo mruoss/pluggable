@@ -7,6 +7,7 @@
     ':label(renovate-update)',
     ':rebaseStalePrs',
     ':prConcurrentLimit10',
+    ':maintainLockFilesWeekly',
   ],
   cdnurl: {
     fileMatch: ['^assets/.*\\.tsx?$'],
