@@ -1,0 +1,17 @@
+name: Code Quality
+on:
+  push:
+    branches: [main]
+  pull_request:
+    branches: [main]
+jobs:
+  code_quality:
+    uses: mruoss/action_elixir_run_tests/.github/workflows/elixir-code-quality.yml@main
+    with:
+      checkout: true
+      with-kubernetes: false
+      check-formatting: true
+      run-credo: strict
+      run-dialyzer: true
+    secrets:
+      token: ${{ secrets.GITHUB_TOKEN }}
