@@ -1,6 +1,6 @@
 {
   extends: [
-    'config:base',
+    'config:recommended',
     'config:recommended',
     ':automergeMinor',
     ':automergePr',
@@ -10,6 +10,8 @@
     ':maintainLockFilesWeekly',
   ],
   cdnurl: {
-    fileMatch: ['^assets/.*\\.tsx?$'],
+    managerFilePatterns: [
+      '/^assets/.*\\.tsx?$/',
+    ],
   },
 }
